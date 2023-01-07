@@ -68,24 +68,29 @@ public class OrderRepository {
    }
 
    public List<String> getAllOrder(){
-       List<String> orderList = new ArrayList<>();
+       if(orderHashMap.size()>0) {
+           List<String> orderList = new ArrayList<>();
 
-       for(String order : orderHashMap.keySet()){
-           orderList.add(order);
+           for (String order : orderHashMap.keySet()) {
+               orderList.add(order);
+           }
+
+           return orderList;
        }
-
-       return orderList;
+       return null;
    }
 
    public int getOrderUnassignedCount(){
 
        int count = 0;
 
-       for(String order : orderHashMap.keySet()){
-           if(!OrderPartnerMap.containsKey(order))
-               count++;
-       }
+       if(!orderHashMap.isEmpty()) {
 
+           for (String order : orderHashMap.keySet()) {
+               if (!OrderPartnerMap.containsKey(order))
+                   count++;
+           }
+       }
        return count;
    }
 
@@ -102,9 +107,11 @@ public class OrderRepository {
 
        int count = 0;
 
-       for(String orderId : orderList){
-           if(orderHashMap.get(orderId).getDeliveryTime()>deliveryTime)
-               count++;
+       if(orderList.size()>0) {
+           for (String orderId : orderList) {
+               if (orderHashMap.get(orderId).getDeliveryTime() > deliveryTime)
+                   count++;
+           }
        }
 
        return count;
@@ -118,8 +125,11 @@ public class OrderRepository {
 
        int lastDelivery = 0;
 
-       for(String orderId : orderList){
-           lastDelivery = Math.max(lastDelivery,orderHashMap.get(orderId).getDeliveryTime());
+       if(orderList.size()>0) {
+
+           for (String orderId : orderList) {
+               lastDelivery = Math.max(lastDelivery, orderHashMap.get(orderId).getDeliveryTime());
+           }
        }
 
        int hour = lastDelivery/60;
