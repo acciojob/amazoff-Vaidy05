@@ -133,32 +133,37 @@ public class OrderRepository {
 
    public void deletePartner(String partnerId){
 
-       deliveryPartnerOrderMap.remove(partnerId);
+       if(deliveryPartnerOrderMap.containsKey(partnerId)) {
+           deliveryPartnerOrderMap.remove(partnerId);
 
-       for(String orderId : OrderPartnerMap.keySet()){
-           if(OrderPartnerMap.get(orderId).equals(partnerId))
-               OrderPartnerMap.remove(orderId);
+           for (String orderId : OrderPartnerMap.keySet()) {
+               if (OrderPartnerMap.get(orderId).equals(partnerId))
+                   OrderPartnerMap.remove(orderId);
+           }
        }
-
        deliveryPartnerHashMap.remove(partnerId);
    }
 
    public void deleteOrder(String orderId){
 
-       String partnerId = OrderPartnerMap.get(orderId);
+       if(OrderPartnerMap.containsKey(orderId)){
+           String partnerId = OrderPartnerMap.get(orderId);
 
-       List<String> orderList = new ArrayList<>();
+           List<String> orderList = new ArrayList<>();
 
-       orderList = deliveryPartnerOrderMap.get(partnerId);
+           orderList = deliveryPartnerOrderMap.get(partnerId);
 
-       for(String order : orderList){
-           if(order.equals(orderId))
-               orderList.remove(order);
+           for(String order : orderList){
+               if(order.equals(orderId))
+                   orderList.remove(order);
+           }
+
+           deliveryPartnerOrderMap.put(partnerId,orderList);
+
+
+           OrderPartnerMap.remove(orderId);
        }
 
-       deliveryPartnerOrderMap.put(partnerId,orderList);
-
-       OrderPartnerMap.remove(orderId);
 
        orderHashMap.remove(orderId);
    }
