@@ -187,10 +187,7 @@ public class OrderRepository {
 
            orderList = deliveryPartnerOrderMap.get(partnerId);
 
-           for(String order : orderList){
-               if(order.equals(orderId))
-                   orderList.remove(order);
-           }
+           orderList.remove(orderId);
 
            deliveryPartnerOrderMap.put(partnerId,orderList);
 
