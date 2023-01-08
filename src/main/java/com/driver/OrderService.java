@@ -55,7 +55,7 @@ public class OrderService {
 
     public String getLastDeliveryTime(String partnerId){
 
-        return getLastDeliveryTime(partnerId);
+        return orderRepository.getLastDeliveryTime(partnerId);
     }
 
     public void deletePartner(String partnerId){
