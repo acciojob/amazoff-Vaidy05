@@ -31,9 +31,7 @@ public class OrderController {
     @PostMapping("/add-partner/{partnerId}")
     public ResponseEntity<String> addPartner(@PathVariable String partnerId){
 
-        DeliveryPartner deliveryPartner = new DeliveryPartner(partnerId);
-
-        orderService.addPartner(deliveryPartner);
+        orderService.addPartner(partnerId);
         return new ResponseEntity<>("New delivery partner added successfully", HttpStatus.CREATED);
     }
 

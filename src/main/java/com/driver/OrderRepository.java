@@ -26,15 +26,16 @@ public class OrderRepository {
       orderHashMap.put(order.getId(),order);
    }
 
-   public void addPartner(DeliveryPartner deliveryPartner){
+   public void addPartner(String partnerId){
+       DeliveryPartner deliveryPartner = new DeliveryPartner(partnerId);
        deliveryPartnerHashMap.put(deliveryPartner.getId(), deliveryPartner);
    }
 
    public void addPartnerOrderPair(String orderId,String deliveryPartnerId){
        List<String> orderList = new ArrayList<>();
 
-       if(deliveryPartnerOrderMap.containsKey(orderId))
-           orderList = deliveryPartnerOrderMap.get(orderId);
+       if(deliveryPartnerOrderMap.containsKey(deliveryPartnerId))
+           orderList = deliveryPartnerOrderMap.get(deliveryPartnerId);
 
        orderList.add(orderId);
 
