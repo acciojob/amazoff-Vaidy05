@@ -120,6 +120,7 @@ public class OrderRepository {
 
    public String getLastDeliveryTime(String partnerId){
 
+
        List<String> orderList = new ArrayList<>();
 
        orderList = deliveryPartnerOrderMap.get(partnerId);
@@ -131,27 +132,49 @@ public class OrderRepository {
            for (String orderId : orderList) {
                lastDelivery = Math.max(lastDelivery, orderHashMap.get(orderId).getDeliveryTime());
            }
+
+
+           int hour = lastDelivery / 60;
+           int minutes = lastDelivery % 60;
+
+           String time = "";
+
+           if(hour<10){
+               time=time+"0"+hour+":";
+           }
+           else
+               time = time + hour + ":";
+
+           if(minutes<10){
+               time=time+"0"+minutes;
+           }
+           else
+               time=time+minutes;
+
+           return time;
        }
 
-       int hour = lastDelivery/60;
-       int minutes = lastDelivery%60;
-
-       String time = "";
-       time = time+hour+":"+minutes;
-
-       return time;
+       return null;
    }
 
    public void deletePartner(String partnerId){
 
        if(deliveryPartnerOrderMap.containsKey(partnerId)) {
-           deliveryPartnerOrderMap.remove(partnerId);
 
-           for (String orderId : OrderPartnerMap.keySet()) {
-               if (OrderPartnerMap.get(orderId).equals(partnerId))
-                   OrderPartnerMap.remove(orderId);
+           List<String> orderList = new ArrayList<>();
+
+           orderList = deliveryPartnerOrderMap.get(partnerId);
+
+           if(orderList.size()>0){
+
+               for(String order : orderList){
+                   OrderPartnerMap.remove(order);
+               }
            }
+
+           deliveryPartnerOrderMap.remove(partnerId);
        }
+
        deliveryPartnerHashMap.remove(partnerId);
    }
 
